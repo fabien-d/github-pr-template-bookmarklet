@@ -1,4 +1,4 @@
-// issue tracker constant URL
+// issue tracker constant URL (Leave blank for GitHub)
 // e.g. TargetProcess:
 // 'https://companyname.tpondemand.com/entity/'
 const issueUrl = '';
@@ -6,10 +6,10 @@ const issueUrl = '';
 /**
  * Get the Markdown based template to insert into the GitHub pull request
  *
- * @param  {String} [story] Story is read from the branch name
+ * @param  {String} [stories] Stories read from the commit message
  * @return {String}
  */
-function getTemplate ( story ) {
+function getTemplate ( stories ) {
 
     // template inserted into the pull request textbox
     // indentation is due to ES2015 (ES6) template strings which support
@@ -29,7 +29,7 @@ function getTemplate ( story ) {
 #### Any background context you want to provide?
 
 #### What are the relevant stories?
-* ${issueUrl}${story}
+${stories}
 
 #### Screenshots:
 
@@ -39,18 +39,36 @@ function getTemplate ( story ) {
     return template;
 }
 
-var textbox = document.getElementById( 'pull_request_body' );
+let textbox = document.getElementById( 'pull_request_body' );
 
 if ( textbox ) {
 
-    // retrieve the branch name
-    var branch = document.querySelector( '[title^="compare:"]' );
+    // retrieve all commits
+    let commits = document.querySelectorAll( '.commit-message' );
+    let commitStr = [];
+    let stories = [];
 
-    // The story ID is read from the branch name. This enforces a naming convention
-    // on branches.
-    // e.g. {STORY_ID}/{BRANCH_NAME}
-    // 1234/my-branch-name
-    var story = branch ? branch.innerHTML.split( '/' )[ 0 ] : '';
+    // loop over commits and extract the issue #
+    [].forEach.call( commits, commit => {
+        commitStr.push( commit.textContent.trim() );
+    } );
 
-    textbox.value = getTemplate( story );
+    // extract unique issues
+    let commitMatches = commitStr.join( ' ' ).match( /#\d+/g );
+    let unique = [];
+
+    if ( commitMatches ) {
+        unique = commitMatches.filter( ( issue, idx, issues ) => {
+            return issues.indexOf( issue ) === idx;
+        } );
+    }
+
+    // The story ID is read from the commit messages. This enforces the id
+    // to be part of the commit message
+    let storiesStr = '';
+    unique.forEach( num => {
+        storiesStr += '* Fixes ' + issueUrl + num + ' \n';
+    } );
+
+    textbox.value = getTemplate( storiesStr );
 }
