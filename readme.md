@@ -2,12 +2,7 @@
 Easily add a template to every GitHub pull request. I plan on creating a site to customize the bookmarklet in the browser.
 
 ## Naming convention
-The bookmarklet enforces a branching naming convention which allows it to easily link an attached story. By default, the naming convention is:
-
-```bash
-{STORY_ID}/{BRANCH_NAME}
-1234/my-branch-name
-```
+The bookmarklet enforces a commit naming convention which allows it to easily link an attached story. Each commit to be linked to an issue must contain the issue not in the following syntax: `#1234`
 
 ## Configuration
 There are two main configuration to define, a template and an issue tracking base url.

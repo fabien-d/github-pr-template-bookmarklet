@@ -1,7 +1,9 @@
-// issue tracker constant URL (Leave blank for GitHub)
+// issue tracker constant URL
 // e.g. TargetProcess:
 // 'https://companyname.tpondemand.com/entity/'
-const issueUrl = '';
+// e.g. GitHub
+// '#'
+const issueUrl = '#';
 
 /**
  * Get the Markdown based template to insert into the GitHub pull request
@@ -67,7 +69,7 @@ if ( textbox ) {
     // to be part of the commit message
     let storiesStr = '';
     unique.forEach( num => {
-        storiesStr += '* Fixes ' + issueUrl + num + ' \n';
+        storiesStr += '* Fixes ' + issueUrl + num.replace( '#', '' ) + ' \n';
     } );
 
     textbox.value = getTemplate( storiesStr );
