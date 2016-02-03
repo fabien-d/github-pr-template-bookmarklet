@@ -1,5 +1,5 @@
 # GitHub pull request template bookmarklet
-Easily add a template to every GitHub pull request. I plan on creating a site to customize the bookmarklet in the browser.
+Easily add a template to every GitHub pull request. Customize it on [CodePen - http://codepen.io/fabien-d/full/obMOOy/](http://codepen.io/fabien-d/full/obMOOy/)
 
 ## Naming convention
 The bookmarklet enforces a commit naming convention which allows it to easily link an attached story. Each commit to be linked to an issue must contain the issue not in the following syntax: `#1234`
